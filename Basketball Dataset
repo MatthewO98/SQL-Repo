@@ -1,0 +1,88 @@
+Link to dataset can be found below:
+https://www.kaggle.com/datasets/jacobbaruch/basketball-players-stats-per-season-49-leagues
+
+
+---What HighSchool has the most top 10 NBA draft picks 1999-2000 ? 
+
+
+
+--List highschools 
+
+select distinct high_school
+from players_stats_by_season_full_details psbsfd 
+limit 25;
+
+--List Top 10 NBA 1999 to 2000
+select player, draft_pick, draft_team
+from players_stats_by_season_full_details psbsfd 
+where league ='NBA'
+and season = '1999 - 2000'
+and draft_pick <= 10 
+group by player, draft_pick ,draft_team 
+order by draft_pick
+limit 10;
+
+-- Count how many players went to the NBA per high school in 1999 to 2000 ?
+
+select distinct high_school, count(*)
+from players_stats_by_season_full_details psbsfd 
+where league = 'NBA'
+and season = '1999 - 2000'
+group by high_school 
+order by count(*) desc 
+limit 15;
+
+select distinct high_school, count(*)
+from players_stats_by_season_full_details psbsfd 
+where league = 'NBA'
+and season = '1999 - 2000'
+and draft_pick <= 10
+group by high_school 
+order by count(*) desc 
+limit 20; 
+
+
+-----Who are the Bad, the Good and Great 3 Point Shooters in the NBA 1999 to 2000 ?
+
+--Who are the top 10 3 point shooters in NBA 1999 to 2000 ?
+
+select player, "3PM"
+from players_stats_by_season_full_details psbsfd 
+where league = 'NBA'
+and season = '1999 - 2000'
+group by player, "3PM"
+order by "3PM" desc  
+limit 10;
+
+
+select player, team
+case 
+	when fgm >650 then 'Great Shooter'
+	when fgm >300 then 'Good Shooter'
+	else 'Bad Shooter'
+end as type_of_shooter
+from players_stats_by_season_full_details psbsfd 
+where league = 'NBA'
+and season = '1999 - 2000'
+group by player, team 
+order by type_of_shooter desc; 
+
+
+-----NBA 1999 to 2000 vs Euroleague 2000 to 2001 Height and  Weight 
+
+select distinct league, avg(height_cm) as AVG_in_cm
+from players_stats_by_season_full_details psbsfd 
+group by league 
+order by AVG_in_cm desc;
+
+--Converting cm to ft
+
+select distinct league, avg(height_cm)*0.0328084 as AVG_in_ft
+from players_stats_by_season_full_details psbsfd 
+group by league
+order by AVG_in_ft desc;
+
+select distinct league, avg(weight_kg) as avg_kg
+from players_stats_by_season_full_details psbsfd 
+group by league 
+order by avg_kg desc;
