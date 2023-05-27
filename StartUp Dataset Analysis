@@ -33,3 +33,52 @@ from abc a
 group by industryvertical
 order by avg(amountinusd) desc 
 limit 20;
+
+I divided the data into two csv's to demonstrate my joining ability.
+
+---Looking for the AVG investment amount 
+
+select avg(amountinusd)
+from untitled_spreadsheet us;
+
+---Looking for StartUp with the highest investment 
+
+select startupname, max(amountinusd)
+from untitled_spreadsheet us
+where amountinusd is not null  
+group by startupname
+order by max(amountinusd) desc 
+limit 10;
+
+
+---Looking for investment type 
+
+select startupname, investmenttype 
+from untitled_spreadsheet us 
+join sf_sql ss 
+on us.sno = ss.sno 
+group by startupname, investmenttype 
+order by investmenttype
+limit 15;
+
+--- What is investment type for the highest invested startups ?
+
+select startupname, max(us.amountinusd), investmenttype
+from untitled_spreadsheet us 
+join sf_sql ss 
+on us.sno = ss.sno 
+where us.amountinusd is not null 
+group by startupname, investmenttype, us.amountinusd 
+order by us.amountinusd  desc 
+limit 10; 
+
+
+--- Who's the Top Investors ? 
+
+select investorsname, amountinusd
+from sf_sql ss 
+where amountinusd is not null 
+and investorsname is not null 
+group by investorsname, amountinusd
+order by amountinusd desc 
+limit 10;
