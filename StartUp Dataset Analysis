@@ -1,0 +1,35 @@
+The link for this dataset is linked below 
+https://www.kaggle.com/datasets/thedevastator/startups-funding-rounds?resource=download
+
+1)What was the most popular investment type ?
+
+select investmenttype, sum(amountinusd)
+from abc a 
+group by investmenttype 
+order by sum(amountinusd) desc 
+limit 4;
+
+2) What was the average investment amount per city ?
+
+select citylocation, avg(amountinusd)
+from abc a 
+group by citylocation 
+order by avg(amountinusd) desc 
+limit 15; 
+
+What was the average investment amount per city in GBP ? (For UK client)
+
+select citylocation, (avg(amountinusd)*0.81) as "AVG investment per city GBP"
+from abc a 
+group by citylocation 
+order by (avg(amountinusd)*0.81) desc 
+limit 15;
+
+
+What industries received the most investment on average ?
+
+select industryvertical as "Industry", avg(amountinusd) as "AVG investment USD"
+from abc a 
+group by industryvertical
+order by avg(amountinusd) desc 
+limit 20;
